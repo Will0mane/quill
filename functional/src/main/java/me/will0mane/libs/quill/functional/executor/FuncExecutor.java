@@ -3,6 +3,7 @@ package me.will0mane.libs.quill.functional.executor;
 import me.will0mane.libs.quill.QuillDriver;
 import me.will0mane.libs.quill.executor.QuillExecutor;
 import me.will0mane.libs.quill.functional.phrases.delete.FuncDeletePhrase;
+import me.will0mane.libs.quill.functional.phrases.drop.FuncDropPhrase;
 import me.will0mane.libs.quill.functional.phrases.insert.FuncInsertPhrase;
 import me.will0mane.libs.quill.functional.phrases.select.FuncSelectPhrase;
 import me.will0mane.libs.quill.functional.phrases.update.FuncUpdatePhrase;
@@ -10,6 +11,7 @@ import me.will0mane.libs.quill.functional.results.FuncResult;
 import me.will0mane.libs.quill.model.Query;
 import me.will0mane.libs.quill.phrases.Phrase;
 import me.will0mane.libs.quill.phrases.delete.DeletePhrase;
+import me.will0mane.libs.quill.phrases.drop.DropPhrase;
 import me.will0mane.libs.quill.phrases.insert.InsertPhrase;
 import me.will0mane.libs.quill.phrases.select.SelectPhrase;
 import me.will0mane.libs.quill.phrases.update.UpdatePhrase;
@@ -74,5 +76,12 @@ public class FuncExecutor implements QuillExecutor {
         FuncSelectPhrase funcSelectPhrase = new FuncSelectPhrase(this);
         funcSelectPhrase.create();
         return funcSelectPhrase;
+    }
+
+    @Override
+    public DropPhrase drop() {
+        FuncDropPhrase funcDropPhrase = new FuncDropPhrase(this);
+        funcDropPhrase.create();
+        return funcDropPhrase;
     }
 }

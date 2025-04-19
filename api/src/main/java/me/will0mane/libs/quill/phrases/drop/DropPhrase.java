@@ -16,4 +16,11 @@ public interface DropPhrase extends Phrase {
     default QueryMethod method() {
         return QueryMethod.NORMAL;
     }
+
+    DropPhrase table(String name);
+
+    DropPhrase database(String name);
+
+    DropPhrase ifExists();
+
 }

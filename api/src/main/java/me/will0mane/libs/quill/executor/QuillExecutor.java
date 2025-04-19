@@ -2,6 +2,7 @@ package me.will0mane.libs.quill.executor;
 
 import me.will0mane.libs.quill.phrases.Phrase;
 import me.will0mane.libs.quill.phrases.delete.DeletePhrase;
+import me.will0mane.libs.quill.phrases.drop.DropPhrase;
 import me.will0mane.libs.quill.phrases.insert.InsertPhrase;
 import me.will0mane.libs.quill.phrases.select.SelectPhrase;
 import me.will0mane.libs.quill.phrases.update.UpdatePhrase;
@@ -18,5 +19,7 @@ public interface QuillExecutor {
     UpdatePhrase update();
 
     SelectPhrase select();
+
+    DropPhrase drop();
 
 }
