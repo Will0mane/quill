@@ -1,0 +1,16 @@
+.idea/*
+*/build/*
+.gradle/*
+*.iml
+gradle/*
+gradle
+
+test/*
+test
+
+*/gradle/*
+*/build/*
+bukkit/nms/build/*
+bukkit/nms/.gradle/*
+
+*/.gradle/*

@@ -1,0 +1,58 @@
+subprojects {
+    group = 'me.will0mane.libs.quill'
+    version = '1.0-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(22))
+    }
+
+    compileJava {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+
+        maven {
+            url "https://repo.willomane.com/releases"
+            credentials {
+                username "$willomaneUser"
+                password "$willomanePassword"
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+
+    tasks.register('sourceJavadoc', Jar) {
+        from sourceSets.main.allSource
+        archiveClassifier.set('sources')
+    }
+
+    publishing {
+        publications {
+            shadow(MavenPublication) {
+                from components.java
+                artifact sourceJavadoc
+            }
+        }
+
+        repositories {
+            maven {
+                url "https://repo.willomane.com/releases"
+                credentials {
+                    username "$willomaneUser"
+                    password "$willomanePassword"
+                }
+                authentication {
+                    basic(BasicAuthentication)
+                }
+            }
+        }
+    }
+}

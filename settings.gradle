@@ -1,0 +1,3 @@
+rootProject.name = 'quill'
+
+include 'api', 'functional', 'test'
