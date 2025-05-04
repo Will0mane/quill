@@ -33,6 +33,8 @@ public enum StandardVerbs implements Verb {
     IF_NOT_EXISTS("if not exists"),
     NOT_NULL("not null"),
     NULL("null"),
+    INNER_JOIN("inner join"),
+    ON("on"),
     PRIMARY_KEY("primary key"),
     AUTO_INCREMENT("auto_increment"),
     COMPLEX_UNKNOWN(false, "?"),

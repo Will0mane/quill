@@ -8,6 +8,8 @@ import me.will0mane.libs.quill.phrases.select.SelectPhrase;
 
 public class FuncSelectPhrase extends BaseFilterablePhrase implements SelectPhrase {
 
+    private int tableCounter = 0;
+
     private boolean firstOrder = true;
 
     public FuncSelectPhrase(QuillExecutor executor) {
@@ -66,6 +68,24 @@ public class FuncSelectPhrase extends BaseFilterablePhrase implements SelectPhra
 
         if(descending) writeVerb(StandardVerbs.DESC);
         else writeVerb(StandardVerbs.ASC);
+        return this;
+    }
+
+    @Override
+    public SelectPhrase innerJoin(String table, String columnOne, String columnTwo) {
+        writeVerb(StandardVerbs.INNER_JOIN);
+        writeVerb(LiteralVerb.of(table));
+
+        tableCounter++;
+        String literal = "q" + tableCounter;
+        writeVerb(LiteralVerb.of(literal));
+
+        writeVerb(StandardVerbs.ON);
+
+        writeVerb(LiteralVerb.of(literal + "." + columnOne));
+        writeVerb(StandardVerbs.EQUAL);
+        writeVerb(LiteralVerb.of(columnTwo));
+
         return this;
     }
 }

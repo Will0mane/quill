@@ -29,4 +29,6 @@ public interface SelectPhrase extends FilterablePhrase {
 
     SelectPhrase orderBy(String column, boolean descending);
 
+    SelectPhrase innerJoin(String table, String columnOne, String columnTwo);
+
 }
