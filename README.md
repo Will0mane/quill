@@ -1,4 +1,6 @@
 # Quill - SQL Builder for Java
+Find the wiki here: [Wiki](https://github.com/Will0mane/quill/wiki)
+
 Do you find boring to write SQL statements by hand all the time? We've got you covered.
 With Quill the job is easier and less prone to bugs and errors.
 
