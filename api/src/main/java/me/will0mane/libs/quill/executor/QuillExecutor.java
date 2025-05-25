@@ -1,9 +1,11 @@
 package me.will0mane.libs.quill.executor;
 
 import me.will0mane.libs.quill.phrases.Phrase;
+import me.will0mane.libs.quill.phrases.alter.AlterTablePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateDatabasePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateTablePhrase;
 import me.will0mane.libs.quill.phrases.delete.DeletePhrase;
+import me.will0mane.libs.quill.phrases.describe.DescribePhrase;
 import me.will0mane.libs.quill.phrases.drop.DropPhrase;
 import me.will0mane.libs.quill.phrases.insert.InsertPhrase;
 import me.will0mane.libs.quill.phrases.select.SelectPhrase;
@@ -27,5 +29,9 @@ public interface QuillExecutor {
     CreateTablePhrase createTable();
 
     CreateDatabasePhrase createDatabase();
+
+    AlterTablePhrase alterTable();
+
+    DescribePhrase describe();
 
 }
