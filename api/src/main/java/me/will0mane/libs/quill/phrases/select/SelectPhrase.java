@@ -23,4 +23,12 @@ public interface SelectPhrase extends FilterablePhrase {
 
     SelectPhrase from(String table);
 
+    SelectPhrase limit(int limit);
+
+    SelectPhrase offset(int offset);
+
+    SelectPhrase orderBy(String column, boolean descending);
+
+    SelectPhrase innerJoin(String table, String columnOne, String columnTwo);
+
 }

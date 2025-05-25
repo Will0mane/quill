@@ -2,6 +2,8 @@ package me.will0mane.libs.quill.functional.executor;
 
 import me.will0mane.libs.quill.QuillDriver;
 import me.will0mane.libs.quill.executor.QuillExecutor;
+import me.will0mane.libs.quill.functional.phrases.create.FuncCreateDatabasePhrase;
+import me.will0mane.libs.quill.functional.phrases.create.FuncCreateTablePhrase;
 import me.will0mane.libs.quill.functional.phrases.delete.FuncDeletePhrase;
 import me.will0mane.libs.quill.functional.phrases.drop.FuncDropPhrase;
 import me.will0mane.libs.quill.functional.phrases.insert.FuncInsertPhrase;
@@ -10,6 +12,8 @@ import me.will0mane.libs.quill.functional.phrases.update.FuncUpdatePhrase;
 import me.will0mane.libs.quill.functional.results.FuncResult;
 import me.will0mane.libs.quill.model.Query;
 import me.will0mane.libs.quill.phrases.Phrase;
+import me.will0mane.libs.quill.phrases.create.CreateDatabasePhrase;
+import me.will0mane.libs.quill.phrases.create.CreateTablePhrase;
 import me.will0mane.libs.quill.phrases.delete.DeletePhrase;
 import me.will0mane.libs.quill.phrases.drop.DropPhrase;
 import me.will0mane.libs.quill.phrases.insert.InsertPhrase;
@@ -83,5 +87,19 @@ public class FuncExecutor implements QuillExecutor {
         FuncDropPhrase funcDropPhrase = new FuncDropPhrase(this);
         funcDropPhrase.create();
         return funcDropPhrase;
+    }
+
+    @Override
+    public CreateTablePhrase createTable() {
+        FuncCreateTablePhrase funcCreateTablePhrase = new FuncCreateTablePhrase(this);
+        funcCreateTablePhrase.create();
+        return funcCreateTablePhrase;
+    }
+
+    @Override
+    public CreateDatabasePhrase createDatabase() {
+        FuncCreateDatabasePhrase funcCreateDatabasePhrase = new FuncCreateDatabasePhrase(this);
+        funcCreateDatabasePhrase.create();
+        return funcCreateDatabasePhrase;
     }
 }
