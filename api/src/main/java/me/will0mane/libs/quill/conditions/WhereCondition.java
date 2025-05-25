@@ -15,5 +15,9 @@ public interface WhereCondition extends Condition{
     FilterablePhrase isGreaterOrEqual(String column, Object param);
 
     FilterablePhrase isLessOrEqual(String column, Object param);
-
+    
+    FilterablePhrase isLike(String column, String param);
+    
+    FilterablePhrase isNotLike(String column, String param);
+    
 }

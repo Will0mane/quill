@@ -69,4 +69,16 @@ public class FuncWhereCondition implements WhereCondition {
         writeCompact(column, StandardVerbs.LESS_EQUAL, param);
         return phrase;
     }
+
+    @Override
+    public FilterablePhrase isLike(String column, String param) {
+        writeCompact(column, StandardVerbs.LIKE, "%" + param + "%");
+        return phrase;
+    }
+
+    @Override
+    public FilterablePhrase isNotLike(String column, String param) {
+        writeCompact(column, StandardVerbs.NOT_LIKE, "%" + param + "%");
+        return phrase;
+    }
 }
