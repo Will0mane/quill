@@ -10,7 +10,7 @@ public interface QuillDriver {
 
     void async(Runnable runnable);
 
-    Connection connection();
+    Connection connection(String database);
 
     Query makeQuery();
 

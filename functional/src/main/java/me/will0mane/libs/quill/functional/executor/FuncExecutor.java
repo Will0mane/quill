@@ -34,9 +34,11 @@ public class FuncExecutor implements QuillExecutor {
     private static final Logger LOGGER = Logger.getLogger("quill");
 
     private final QuillDriver driver;
+    private final String database;
 
-    public FuncExecutor(QuillDriver driver) {
+    public FuncExecutor(QuillDriver driver, String database) {
         this.driver = driver;
+        this.database = database;
     }
 
     @Override
@@ -49,6 +51,7 @@ public class FuncExecutor implements QuillExecutor {
             LOGGER.info("Execute query: " + literal + "   [Params: " + phrase.parameters() + "]");
         }
 
+        query.database(database);
         query.literal(literal);
         query.method(phrase.method());
         query.params(phrase.parameters());

@@ -7,6 +7,10 @@ public interface Quill {
 
     QuillExecutor async();
 
+    QuillExecutor async(String database);
+
+    String defaultDatabase();
+
     QuillDriver driver();
 
     TableManager tables();
