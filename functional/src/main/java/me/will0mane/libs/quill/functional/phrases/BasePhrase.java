@@ -19,7 +19,9 @@ public abstract class BasePhrase implements Phrase {
 
     @Override
     public void create() {
-        writeVerb(baseVerb());
+        Verb verb = baseVerb();
+        if (verb == null) return;
+        writeVerb(verb);
     }
 
     public Scribe scribe() {

@@ -9,6 +9,7 @@ import me.will0mane.libs.quill.functional.phrases.delete.FuncDeletePhrase;
 import me.will0mane.libs.quill.functional.phrases.describe.FuncDescribePhrase;
 import me.will0mane.libs.quill.functional.phrases.drop.FuncDropPhrase;
 import me.will0mane.libs.quill.functional.phrases.insert.FuncInsertPhrase;
+import me.will0mane.libs.quill.functional.phrases.raw.FuncRawPhrase;
 import me.will0mane.libs.quill.functional.phrases.select.FuncSelectPhrase;
 import me.will0mane.libs.quill.functional.phrases.update.FuncUpdatePhrase;
 import me.will0mane.libs.quill.functional.results.FuncResult;
@@ -21,6 +22,7 @@ import me.will0mane.libs.quill.phrases.delete.DeletePhrase;
 import me.will0mane.libs.quill.phrases.describe.DescribePhrase;
 import me.will0mane.libs.quill.phrases.drop.DropPhrase;
 import me.will0mane.libs.quill.phrases.insert.InsertPhrase;
+import me.will0mane.libs.quill.phrases.raw.RawPhrase;
 import me.will0mane.libs.quill.phrases.select.SelectPhrase;
 import me.will0mane.libs.quill.phrases.update.UpdatePhrase;
 import me.will0mane.libs.quill.results.Result;
@@ -64,6 +66,11 @@ public class FuncExecutor implements QuillExecutor {
     private <T extends Phrase> T makePhrase(T phrase) {
         phrase.create();
         return phrase;
+    }
+
+    @Override
+    public RawPhrase raw() {
+        return makePhrase(new FuncRawPhrase(this));
     }
 
     @Override

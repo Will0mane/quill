@@ -41,6 +41,9 @@ public class FuncQuill implements Quill {
 
     @Override
     public QuillExecutor async(String database) {
+        if (!executors.containsKey(database)) {
+            register(database, new FuncExecutor(driver, database));
+        }
         return executors.get(database);
     }
 

@@ -8,6 +8,7 @@ import me.will0mane.libs.quill.phrases.delete.DeletePhrase;
 import me.will0mane.libs.quill.phrases.describe.DescribePhrase;
 import me.will0mane.libs.quill.phrases.drop.DropPhrase;
 import me.will0mane.libs.quill.phrases.insert.InsertPhrase;
+import me.will0mane.libs.quill.phrases.raw.RawPhrase;
 import me.will0mane.libs.quill.phrases.select.SelectPhrase;
 import me.will0mane.libs.quill.phrases.update.UpdatePhrase;
 import me.will0mane.libs.quill.results.Result;
@@ -15,6 +16,8 @@ import me.will0mane.libs.quill.results.Result;
 public interface QuillExecutor {
 
     Result execute(Phrase phrase);
+
+    RawPhrase raw();
 
     DeletePhrase delete();
 
