@@ -51,7 +51,8 @@ public enum StandardVerbs implements Verb {
     GREATER_EQUAL(">="),
     LESS_EQUAL("<="),
     LIKE("like"),
-    NOT_LIKE("not like")
+    NOT_LIKE("not like"),
+    IN("in")
     ;
 
     private final boolean appendSpace;

@@ -81,4 +81,21 @@ public class FuncWhereCondition implements WhereCondition {
         writeCompact(column, StandardVerbs.NOT_LIKE, "%" + param + "%");
         return phrase;
     }
+
+    @Override
+    public FilterablePhrase in(String column, Object... params) {
+        write(StandardVerbs.OPEN_PARAM);
+        
+        boolean first = true;
+        
+        for (Object param : params) {
+            if (first) first = false;
+            else write(StandardVerbs.COMPLEX_LISTING);
+            write(StandardVerbs.UNKNOWN);
+            scribe.assign(param);
+        }
+        
+        write(StandardVerbs.CLOSE_PARAM);
+        return phrase;
+    }
 }
