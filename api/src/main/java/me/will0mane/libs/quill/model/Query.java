@@ -6,6 +6,8 @@ import java.util.Collection;
 
 public interface Query {
 
+    void database(String database);
+
     void literal(String literal);
 
     void params(Collection<Object> params);

@@ -2,21 +2,27 @@ package me.will0mane.libs.quill.functional.executor;
 
 import me.will0mane.libs.quill.QuillDriver;
 import me.will0mane.libs.quill.executor.QuillExecutor;
+import me.will0mane.libs.quill.functional.phrases.alter.FuncAlterTablePhrase;
 import me.will0mane.libs.quill.functional.phrases.create.FuncCreateDatabasePhrase;
 import me.will0mane.libs.quill.functional.phrases.create.FuncCreateTablePhrase;
 import me.will0mane.libs.quill.functional.phrases.delete.FuncDeletePhrase;
+import me.will0mane.libs.quill.functional.phrases.describe.FuncDescribePhrase;
 import me.will0mane.libs.quill.functional.phrases.drop.FuncDropPhrase;
 import me.will0mane.libs.quill.functional.phrases.insert.FuncInsertPhrase;
+import me.will0mane.libs.quill.functional.phrases.raw.FuncRawPhrase;
 import me.will0mane.libs.quill.functional.phrases.select.FuncSelectPhrase;
 import me.will0mane.libs.quill.functional.phrases.update.FuncUpdatePhrase;
 import me.will0mane.libs.quill.functional.results.FuncResult;
 import me.will0mane.libs.quill.model.Query;
 import me.will0mane.libs.quill.phrases.Phrase;
+import me.will0mane.libs.quill.phrases.alter.AlterTablePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateDatabasePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateTablePhrase;
 import me.will0mane.libs.quill.phrases.delete.DeletePhrase;
+import me.will0mane.libs.quill.phrases.describe.DescribePhrase;
 import me.will0mane.libs.quill.phrases.drop.DropPhrase;
 import me.will0mane.libs.quill.phrases.insert.InsertPhrase;
+import me.will0mane.libs.quill.phrases.raw.RawPhrase;
 import me.will0mane.libs.quill.phrases.select.SelectPhrase;
 import me.will0mane.libs.quill.phrases.update.UpdatePhrase;
 import me.will0mane.libs.quill.results.Result;
@@ -30,9 +36,11 @@ public class FuncExecutor implements QuillExecutor {
     private static final Logger LOGGER = Logger.getLogger("quill");
 
     private final QuillDriver driver;
+    private final String database;
 
-    public FuncExecutor(QuillDriver driver) {
+    public FuncExecutor(QuillDriver driver, String database) {
         this.driver = driver;
+        this.database = database;
     }
 
     @Override
@@ -45,6 +53,7 @@ public class FuncExecutor implements QuillExecutor {
             LOGGER.info("Execute query: " + literal + "   [Params: " + phrase.parameters() + "]");
         }
 
+        query.database(database);
         query.literal(literal);
         query.method(phrase.method());
         query.params(phrase.parameters());
@@ -54,52 +63,58 @@ public class FuncExecutor implements QuillExecutor {
         return new FuncResult(reader);
     }
 
+    private <T extends Phrase> T makePhrase(T phrase) {
+        phrase.create();
+        return phrase;
+    }
+
+    @Override
+    public RawPhrase raw() {
+        return makePhrase(new FuncRawPhrase(this));
+    }
+
     @Override
     public DeletePhrase delete() {
-        FuncDeletePhrase funcDeletePhrase = new FuncDeletePhrase(this);
-        funcDeletePhrase.create();
-        return funcDeletePhrase;
+        return makePhrase(new FuncDeletePhrase(this));
     }
 
     @Override
     public InsertPhrase insert() {
-        FuncInsertPhrase funcInsertPhrase = new FuncInsertPhrase(this);
-        funcInsertPhrase.create();
-        return funcInsertPhrase;
+        return makePhrase(new FuncInsertPhrase(this));
     }
 
     @Override
     public UpdatePhrase update() {
-        FuncUpdatePhrase funcUpdatePhrase = new FuncUpdatePhrase(this);
-        funcUpdatePhrase.create();
-        return funcUpdatePhrase;
+        return makePhrase(new FuncUpdatePhrase(this));
     }
 
     @Override
     public SelectPhrase select() {
-        FuncSelectPhrase funcSelectPhrase = new FuncSelectPhrase(this);
-        funcSelectPhrase.create();
-        return funcSelectPhrase;
+        return makePhrase(new FuncSelectPhrase(this));
     }
 
     @Override
     public DropPhrase drop() {
-        FuncDropPhrase funcDropPhrase = new FuncDropPhrase(this);
-        funcDropPhrase.create();
-        return funcDropPhrase;
+        return makePhrase(new FuncDropPhrase(this));
     }
 
     @Override
     public CreateTablePhrase createTable() {
-        FuncCreateTablePhrase funcCreateTablePhrase = new FuncCreateTablePhrase(this);
-        funcCreateTablePhrase.create();
-        return funcCreateTablePhrase;
+        return makePhrase(new FuncCreateTablePhrase(this));
     }
 
     @Override
     public CreateDatabasePhrase createDatabase() {
-        FuncCreateDatabasePhrase funcCreateDatabasePhrase = new FuncCreateDatabasePhrase(this);
-        funcCreateDatabasePhrase.create();
-        return funcCreateDatabasePhrase;
+        return makePhrase(new FuncCreateDatabasePhrase(this));
+    }
+
+    @Override
+    public AlterTablePhrase alterTable() {
+        return makePhrase(new FuncAlterTablePhrase(this));
+    }
+
+    @Override
+    public DescribePhrase describe() {
+        return makePhrase(new FuncDescribePhrase(this));
     }
 }

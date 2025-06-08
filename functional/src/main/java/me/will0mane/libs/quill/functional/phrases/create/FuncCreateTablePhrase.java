@@ -35,6 +35,12 @@ public class FuncCreateTablePhrase extends BasePhrase implements CreateTablePhra
             for (ColumnOption option : column.options()) {
                 writeVerb(option.getVerb());
             }
+
+            if(column.def() != null) {
+                writeVerb(StandardVerbs.DEFAULT);
+                writeVerb(StandardVerbs.UNKNOWN);
+                assignParam(column.def());
+            }
         }
 
         writeVerb(StandardVerbs.COMPLEX_CLOSE_PARAM);
