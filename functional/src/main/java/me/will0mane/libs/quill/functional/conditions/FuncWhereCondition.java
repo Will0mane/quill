@@ -84,7 +84,9 @@ public class FuncWhereCondition implements WhereCondition {
 
     @Override
     public FilterablePhrase in(String column, Object... params) {
-        write(StandardVerbs.OPEN_PARAM);
+        write(LiteralVerb.of(column));
+        write(StandardVerbs.IN);
+        write(StandardVerbs.COMPLEX_OPEN_PARAM);
         
         boolean first = true;
         
@@ -95,7 +97,7 @@ public class FuncWhereCondition implements WhereCondition {
             scribe.assign(param);
         }
         
-        write(StandardVerbs.CLOSE_PARAM);
+        write(StandardVerbs.COMPLEX_CLOSE_PARAM);
         return phrase;
     }
 }
