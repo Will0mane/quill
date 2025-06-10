@@ -22,6 +22,6 @@ public interface WhereCondition extends Condition{
     
     FilterablePhrase in(String column, Object... params);
 
-    FilterablePhrase not();
+    WhereCondition not();
     
 }

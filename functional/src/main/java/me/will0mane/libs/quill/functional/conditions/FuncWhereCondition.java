@@ -102,8 +102,8 @@ public class FuncWhereCondition implements WhereCondition {
     }
 
     @Override
-    public FilterablePhrase not() {
+    public WhereCondition not() {
         write(StandardVerbs.NOT);
-        return phrase;
+        return this;
     }
 }
