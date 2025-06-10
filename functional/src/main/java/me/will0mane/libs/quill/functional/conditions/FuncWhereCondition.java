@@ -100,4 +100,10 @@ public class FuncWhereCondition implements WhereCondition {
         write(StandardVerbs.COMPLEX_CLOSE_PARAM);
         return phrase;
     }
+
+    @Override
+    public FilterablePhrase not() {
+        write(StandardVerbs.NOT);
+        return phrase;
+    }
 }

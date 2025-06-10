@@ -59,6 +59,7 @@ public enum StandardVerbs implements Verb {
     LESS_EQUAL("<="),
     LIKE("like"),
     NOT_LIKE("not like"),
+    NOT("not"),
     IN("in")
     ;
 

@@ -21,5 +21,7 @@ public interface WhereCondition extends Condition{
     FilterablePhrase isNotLike(String column, String param);
     
     FilterablePhrase in(String column, Object... params);
+
+    FilterablePhrase not();
     
 }
