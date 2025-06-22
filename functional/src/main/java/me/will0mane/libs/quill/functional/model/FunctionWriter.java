@@ -6,7 +6,7 @@ import me.will0mane.libs.quill.model.StandardVerbs;
 public class FunctionWriter {
 
     public static void write(SQLFunction function, Scribe scribe) {
-        scribe.write(LiteralVerb.of(function.getFunctionName() + "("));
+        scribe.write(LiteralVerb.of(function.getFunctionName() + StandardVerbs.COMPLEX_OPEN_PARAM.get()));
 
         boolean first = true;
         for (Object param : function.getParams()) {
@@ -16,6 +16,8 @@ public class FunctionWriter {
             scribe.write(StandardVerbs.UNKNOWN);
             scribe.assign(param);
         }
+
+        scribe.write(StandardVerbs.COMPLEX_CLOSE_PARAM);
     }
 
     public static void process(Object param, Scribe scribe) {
