@@ -38,10 +38,10 @@ public class FuncInsertPhrase extends BasePhrase implements InsertPhrase {
 
     @Override
     public InsertPhrase row(Object... values) {
-        if(!wroteValuesHeader) {
+        if (!wroteValuesHeader) {
             writeVerb(StandardVerbs.VALUES);
             wroteValuesHeader = true;
-        }else {
+        } else {
             writeVerb(StandardVerbs.COMPLEX_LISTING);
         }
 
@@ -61,15 +61,33 @@ public class FuncInsertPhrase extends BasePhrase implements InsertPhrase {
 
     @Override
     public InsertPhrase onConflictUpdate(String column, Object value) {
-        if(!wroteOnConflictHeader) {
+        if (!wroteOnConflictHeader) {
             writeVerb(StandardVerbs.ON_CONFLICT_UPDATE);
             wroteOnConflictHeader = true;
-        }else {
+        } else {
             writeVerb(StandardVerbs.LISTING);
         }
 
         writeVerb(LiteralVerb.of(column));
         writeVerb(StandardVerbs.EQUAL);
+        writeVerb(StandardVerbs.UNKNOWN);
+        assignParam(value);
+        return this;
+    }
+
+    @Override
+    public InsertPhrase onConflictUpdate(String column, String expression, Object value) {
+        if (!wroteOnConflictHeader) {
+            writeVerb(StandardVerbs.ON_CONFLICT_UPDATE);
+            wroteOnConflictHeader = true;
+        } else {
+            writeVerb(StandardVerbs.LISTING);
+        }
+
+        writeVerb(LiteralVerb.of(column));
+        writeVerb(StandardVerbs.EQUAL);
+        writeVerb(LiteralVerb.of(column));
+        writeVerb(LiteralVerb.of(expression));
         writeVerb(StandardVerbs.UNKNOWN);
         assignParam(value);
         return this;

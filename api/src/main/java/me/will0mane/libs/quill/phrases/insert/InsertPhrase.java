@@ -28,4 +28,6 @@ public interface InsertPhrase extends Phrase {
     }
 
     InsertPhrase onConflictUpdate(String column, Object value);
+
+    InsertPhrase onConflictUpdate(String column, String expression, Object value);
 }
