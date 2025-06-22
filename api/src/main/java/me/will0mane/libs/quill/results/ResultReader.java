@@ -3,7 +3,7 @@ package me.will0mane.libs.quill.results;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface ResultReader {
+public interface ResultReader extends AutoCloseable {
 
     boolean next() throws SQLException;
 
