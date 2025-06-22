@@ -53,6 +53,17 @@ public abstract class BasePhrase implements Phrase {
     }
 
     @Override
+    public void sendAndIgnore() {
+        send().await().thenAccept(reader -> {
+            try {
+                reader.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @Override
     public Result send(QueryOption... options) {
         return executor.execute(this, options);
     }

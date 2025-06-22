@@ -6,6 +6,8 @@ public interface QueryPoint {
 
     Result send();
 
+    void sendAndIgnore();
+
     Result send(QueryOption... options);
 
 }
