@@ -4,6 +4,7 @@ import me.will0mane.libs.quill.results.Result;
 import me.will0mane.libs.quill.results.ResultReader;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class FuncResult implements Result {
 
@@ -16,6 +17,18 @@ public class FuncResult implements Result {
     @Override
     public CompletableFuture<ResultReader> await() {
         return future;
+    }
+
+    @Override
+    public void await(Consumer<ResultReader> consumer) {
+        await().thenAccept(reader -> {
+            consumer.accept(reader);
+            try {
+                reader.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 }
