@@ -14,6 +14,7 @@ import me.will0mane.libs.quill.functional.phrases.select.FuncSelectPhrase;
 import me.will0mane.libs.quill.functional.phrases.update.FuncUpdatePhrase;
 import me.will0mane.libs.quill.functional.results.FuncResult;
 import me.will0mane.libs.quill.model.Query;
+import me.will0mane.libs.quill.model.QueryOption;
 import me.will0mane.libs.quill.phrases.Phrase;
 import me.will0mane.libs.quill.phrases.alter.AlterTablePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateDatabasePhrase;
@@ -28,6 +29,7 @@ import me.will0mane.libs.quill.phrases.update.UpdatePhrase;
 import me.will0mane.libs.quill.results.Result;
 import me.will0mane.libs.quill.results.ResultReader;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
@@ -44,7 +46,7 @@ public class FuncExecutor implements QuillExecutor {
     }
 
     @Override
-    public Result execute(Phrase phrase) {
+    public Result execute(Phrase phrase, QueryOption... options) {
         Query query = driver.makeQuery();
 
         String literal = phrase.literal();
@@ -57,6 +59,7 @@ public class FuncExecutor implements QuillExecutor {
         query.literal(literal);
         query.method(phrase.method());
         query.params(phrase.parameters());
+        query.options(Arrays.asList(options));
 
         CompletableFuture<ResultReader> reader = new CompletableFuture<>();
         driver.async(() -> reader.complete(query.execute()));

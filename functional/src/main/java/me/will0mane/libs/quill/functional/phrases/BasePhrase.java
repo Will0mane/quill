@@ -2,6 +2,7 @@ package me.will0mane.libs.quill.functional.phrases;
 
 import me.will0mane.libs.quill.executor.QuillExecutor;
 import me.will0mane.libs.quill.functional.model.Scribe;
+import me.will0mane.libs.quill.model.QueryOption;
 import me.will0mane.libs.quill.model.Verb;
 import me.will0mane.libs.quill.phrases.Phrase;
 import me.will0mane.libs.quill.results.Result;
@@ -49,5 +50,10 @@ public abstract class BasePhrase implements Phrase {
     @Override
     public Result send() {
         return executor.execute(this);
+    }
+
+    @Override
+    public Result send(QueryOption... options) {
+        return executor.execute(this, options);
     }
 }
