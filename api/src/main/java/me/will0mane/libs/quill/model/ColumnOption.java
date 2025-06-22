@@ -4,6 +4,7 @@ public enum ColumnOption {
 
     NOT_NULL(StandardVerbs.NOT_NULL),
     NULL(StandardVerbs.NULL),
+    KEY(StandardVerbs.KEY),
     PRIMARY_KEY(StandardVerbs.PRIMARY_KEY),
     AUTO_INCREMENT(StandardVerbs.AUTO_INCREMENT),
     ;

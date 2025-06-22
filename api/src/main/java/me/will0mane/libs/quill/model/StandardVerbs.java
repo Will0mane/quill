@@ -42,6 +42,7 @@ public enum StandardVerbs implements Verb {
     NULL("null"),
     INNER_JOIN("inner join"),
     ON("on"),
+    KEY("key"),
     PRIMARY_KEY("primary key"),
     AUTO_INCREMENT("auto_increment"),
     COMPLEX_UNKNOWN(false, "?"),
