@@ -1,6 +1,7 @@
 package me.will0mane.libs.quill.functional.phrases.update;
 
 import me.will0mane.libs.quill.executor.QuillExecutor;
+import me.will0mane.libs.quill.functional.model.FunctionWriter;
 import me.will0mane.libs.quill.functional.model.LiteralVerb;
 import me.will0mane.libs.quill.functional.phrases.BaseFilterablePhrase;
 import me.will0mane.libs.quill.model.StandardVerbs;
@@ -31,8 +32,7 @@ public class FuncUpdatePhrase extends BaseFilterablePhrase implements UpdatePhra
 
         writeVerb(LiteralVerb.of(name));
         writeVerb(StandardVerbs.EQUAL);
-        writeVerb(StandardVerbs.UNKNOWN);
-        assignParam(value);
+        FunctionWriter.process(value, scribe());
         return this;
     }
 
@@ -49,8 +49,8 @@ public class FuncUpdatePhrase extends BaseFilterablePhrase implements UpdatePhra
         writeVerb(StandardVerbs.EQUAL);
         writeVerb(LiteralVerb.of(name));
         writeVerb(LiteralVerb.of(expression));
-        writeVerb(StandardVerbs.UNKNOWN);
-        assignParam(value);
+
+        FunctionWriter.process(value, scribe());
         return this;
     }
 }

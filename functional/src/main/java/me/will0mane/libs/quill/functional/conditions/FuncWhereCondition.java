@@ -1,6 +1,7 @@
 package me.will0mane.libs.quill.functional.conditions;
 
 import me.will0mane.libs.quill.conditions.WhereCondition;
+import me.will0mane.libs.quill.functional.model.FunctionWriter;
 import me.will0mane.libs.quill.functional.model.LiteralVerb;
 import me.will0mane.libs.quill.functional.model.Scribe;
 import me.will0mane.libs.quill.model.StandardVerbs;
@@ -29,9 +30,8 @@ public class FuncWhereCondition implements WhereCondition {
     private void writeCompact(String field, Verb verb, Object value) {
         write(field);
         write(verb);
-        write(StandardVerbs.UNKNOWN);
 
-        scribe.assign(value);
+        FunctionWriter.process(value, scribe);
     }
 
     @Override
@@ -87,16 +87,15 @@ public class FuncWhereCondition implements WhereCondition {
         write(LiteralVerb.of(column));
         write(StandardVerbs.IN);
         write(StandardVerbs.COMPLEX_OPEN_PARAM);
-        
+
         boolean first = true;
-        
+
         for (Object param : params) {
             if (first) first = false;
             else write(StandardVerbs.COMPLEX_LISTING);
-            write(StandardVerbs.UNKNOWN);
-            scribe.assign(param);
+            FunctionWriter.process(param, scribe);
         }
-        
+
         write(StandardVerbs.COMPLEX_CLOSE_PARAM);
         return phrase;
     }

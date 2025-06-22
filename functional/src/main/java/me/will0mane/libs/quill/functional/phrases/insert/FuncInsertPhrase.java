@@ -1,6 +1,7 @@
 package me.will0mane.libs.quill.functional.phrases.insert;
 
 import me.will0mane.libs.quill.executor.QuillExecutor;
+import me.will0mane.libs.quill.functional.model.FunctionWriter;
 import me.will0mane.libs.quill.functional.model.LiteralVerb;
 import me.will0mane.libs.quill.functional.phrases.BasePhrase;
 import me.will0mane.libs.quill.model.StandardVerbs;
@@ -51,8 +52,7 @@ public class FuncInsertPhrase extends BasePhrase implements InsertPhrase {
         for (Object param : values) {
             if (first) first = false;
             else writeVerb(StandardVerbs.COMPLEX_LISTING);
-            writeVerb(StandardVerbs.UNKNOWN);
-            assignParam(param);
+            FunctionWriter.process(param, scribe());
         }
 
         writeVerb(StandardVerbs.COMPLEX_CLOSE_PARAM);
@@ -70,8 +70,7 @@ public class FuncInsertPhrase extends BasePhrase implements InsertPhrase {
 
         writeVerb(LiteralVerb.of(column));
         writeVerb(StandardVerbs.EQUAL);
-        writeVerb(StandardVerbs.UNKNOWN);
-        assignParam(value);
+        FunctionWriter.process(value, scribe());
         return this;
     }
 
@@ -88,8 +87,7 @@ public class FuncInsertPhrase extends BasePhrase implements InsertPhrase {
         writeVerb(StandardVerbs.EQUAL);
         writeVerb(LiteralVerb.of(column));
         writeVerb(LiteralVerb.of(expression));
-        writeVerb(StandardVerbs.UNKNOWN);
-        assignParam(value);
+        FunctionWriter.process(value, scribe());
         return this;
     }
 }
