@@ -20,4 +20,6 @@ public interface UpdatePhrase extends FilterablePhrase {
     UpdatePhrase table(String name);
 
     UpdatePhrase set(String name, Object value);
+
+    UpdatePhrase set(String name, String expression, Object value);
 }

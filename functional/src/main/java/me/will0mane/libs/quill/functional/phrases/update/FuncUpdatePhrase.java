@@ -35,4 +35,22 @@ public class FuncUpdatePhrase extends BaseFilterablePhrase implements UpdatePhra
         assignParam(value);
         return this;
     }
+
+    @Override
+    public UpdatePhrase set(String name, String expression, Object value) {
+        if (!wroteSetHeader) {
+            writeVerb(StandardVerbs.SET);
+            wroteSetHeader = true;
+        } else {
+            writeVerb(StandardVerbs.LISTING);
+        }
+
+        writeVerb(LiteralVerb.of(name));
+        writeVerb(StandardVerbs.EQUAL);
+        writeVerb(LiteralVerb.of(name));
+        writeVerb(LiteralVerb.of(expression));
+        writeVerb(StandardVerbs.UNKNOWN);
+        assignParam(value);
+        return this;
+    }
 }
