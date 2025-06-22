@@ -1,5 +1,6 @@
 package me.will0mane.libs.quill.results;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface ResultReader {
@@ -11,5 +12,11 @@ public interface ResultReader {
     <T> T get(int index) throws SQLException;
 
     <T> T get(String column) throws SQLException;
+
+    void add(int space, ResultSet set);
+
+    <T> T get(int space, int index);
+
+    <T> T get(int space, String column);
 
 }
