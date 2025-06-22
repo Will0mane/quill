@@ -15,8 +15,8 @@ public interface ResultReader {
 
     void add(int space, ResultSet set);
 
-    <T> T get(int space, int index);
+    <T> T get(int space, int index) throws SQLException;
 
-    <T> T get(int space, String column);
+    <T> T get(int space, String column) throws SQLException;
 
 }
