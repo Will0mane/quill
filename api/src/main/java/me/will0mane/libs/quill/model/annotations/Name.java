@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface DefaultBigInt {
+@Target({ElementType.TYPE, ElementType.FIELD})
+public @interface Name {
 
-    long def();
+    String value();
 
 }

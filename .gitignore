@@ -5,6 +5,8 @@
 gradle/*
 gradle
 
+build/*
+
 test/*
 test
 

@@ -6,7 +6,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(22))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     }
 
     compileJava {
@@ -44,13 +44,24 @@ subprojects {
 
         repositories {
             maven {
+                url "https://repo.coralmc.it/releases"
+                credentials {
+                    username "$mavenUser"
+                    password "$mavenPassword"
+                }
+                authentication {
+                    create("basic", BasicAuthentication)
+                }
+            }
+
+            maven {
                 url "https://repo.willomane.com/releases"
                 credentials {
                     username "$willomaneUser"
                     password "$willomanePassword"
                 }
                 authentication {
-                    basic(BasicAuthentication)
+                    create("basic", BasicAuthentication)
                 }
             }
         }

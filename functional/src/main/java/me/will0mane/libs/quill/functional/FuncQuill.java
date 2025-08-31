@@ -4,8 +4,7 @@ import me.will0mane.libs.quill.Quill;
 import me.will0mane.libs.quill.QuillDriver;
 import me.will0mane.libs.quill.executor.QuillExecutor;
 import me.will0mane.libs.quill.functional.executor.FuncExecutor;
-import me.will0mane.libs.quill.functional.tables.FuncTableManager;
-import me.will0mane.libs.quill.tables.TableManager;
+import me.will0mane.libs.quill.model.ModelHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +17,7 @@ public class FuncQuill implements Quill {
     private final String defaultDatabase;
     private final QuillExecutor defaultExecutor;
 
-    private final TableManager tableManager;
+    private final ModelHandler models;
 
     public FuncQuill(QuillDriver driver, String defaultDatabase) {
         this.driver = driver;
@@ -27,7 +26,7 @@ public class FuncQuill implements Quill {
         defaultExecutor = new FuncExecutor(driver, defaultDatabase);
         register(defaultDatabase, defaultExecutor);
 
-        tableManager = new FuncTableManager(this);
+        models = new ModelHandler();
     }
 
     private void register(String database, QuillExecutor executor) {
@@ -58,7 +57,8 @@ public class FuncQuill implements Quill {
     }
 
     @Override
-    public TableManager tables() {
-        return tableManager;
+    public ModelHandler models() {
+        return models;
     }
+
 }

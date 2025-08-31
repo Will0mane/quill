@@ -1,7 +1,7 @@
 package me.will0mane.libs.quill;
 
 import me.will0mane.libs.quill.executor.QuillExecutor;
-import me.will0mane.libs.quill.tables.TableManager;
+import me.will0mane.libs.quill.model.ModelHandler;
 
 public interface Quill {
 
@@ -13,6 +13,6 @@ public interface Quill {
 
     QuillDriver driver();
 
-    TableManager tables();
+    ModelHandler models();
 
 }
