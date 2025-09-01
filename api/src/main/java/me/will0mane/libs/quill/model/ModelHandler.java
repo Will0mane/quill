@@ -194,15 +194,23 @@ public class ModelHandler {
 
     public CompletableFuture<Boolean> update(QuillProperties properties, Plaster plaster, Object entity, RowIdentifier identifier) throws NoSuchFieldException, IllegalAccessException {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        Class<?> aClass = entity.getClass();
 
         UpdatePhrase updatePhrase = properties.quill().async(properties.database())
                 .update().table(plaster.name());
 
-        for (Column column : plaster.columns().values()) {
-            if (plaster.generated().contains(column.name())) continue;
-            Object o = aClass.getDeclaredField(plaster.fieldMap().get(column.name())).get(entity);
-            updatePhrase.set(column.name(), o);
+        if (entity instanceof Data data) {
+            for (Column column : plaster.columns().values()) {
+                if (plaster.generated().contains(column.name())) continue;
+                Object o = data.get(column.name());
+                updatePhrase.set(column.name(), o);
+            }
+        } else {
+            Class<?> aClass = entity.getClass();
+            for (Column column : plaster.columns().values()) {
+                if (plaster.generated().contains(column.name())) continue;
+                Object o = aClass.getDeclaredField(plaster.fieldMap().get(column.name())).get(entity);
+                updatePhrase.set(column.name(), o);
+            }
         }
 
         updatePhrase.where().isEqual(identifier.primaryKey(), identifier.value());
@@ -213,17 +221,27 @@ public class ModelHandler {
 
     public CompletableFuture<Boolean> updateSpecific(QuillProperties properties, Plaster plaster, Object entity, RowIdentifier identifier, String... fields) throws NoSuchFieldException, IllegalAccessException {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        Class<?> aClass = entity.getClass();
 
         UpdatePhrase updatePhrase = properties.quill().async(properties.database())
                 .update().table(plaster.name());
 
         boolean minimum = false;
-        for (String column : fields) {
-            if (plaster.generated().contains(column)) continue;
-            Object o = aClass.getDeclaredField(plaster.fieldMap().get(column)).get(entity);
-            updatePhrase.set(column, o);
-            minimum = true;
+
+        if (entity instanceof Data data) {
+            for (String column : fields) {
+                if (plaster.generated().contains(column)) continue;
+                Object o = data.compound().get(column);
+                updatePhrase.set(column, o);
+                minimum = true;
+            }
+        } else {
+            Class<?> aClass = entity.getClass();
+            for (String column : fields) {
+                if (plaster.generated().contains(column)) continue;
+                Object o = aClass.getDeclaredField(plaster.fieldMap().get(column)).get(entity);
+                updatePhrase.set(column, o);
+                minimum = true;
+            }
         }
 
         if (!minimum) {
