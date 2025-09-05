@@ -118,7 +118,8 @@ public class ModelHandler {
                     try {
                         future.complete(query(plaster, reader));
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+						e.printStackTrace();
+                        future.complete(null);
                     }
                 });
         return future;
@@ -138,24 +139,29 @@ public class ModelHandler {
         CompletableFuture<T> future = new CompletableFuture<>();
         Class<?> aClass = entity.getClass();
 
-        Set<String> columns = new HashSet<>();
-
-        for (Column value : plaster.columns().values()) {
-            if (plaster.generated().contains(value.name())) continue;
-            columns.add(value.name());
-        }
-
-        String[] array = columns.toArray(new String[]{});
-        Object[] objects = new Object[array.length];
-
-        for (int i = 0; i < objects.length; i++) {
-            objects[i] = aClass.getDeclaredField(array[i]).get(entity);
-        }
+        Map<String, Object> compound = new HashMap<>();
+		
+		if (entity instanceof Data data) {
+			for (Column column : plaster.columns().values()) {
+				if (plaster.generated().contains(column.name())) continue;
+				Object o = data.get(column.name());
+				if (o == null && column.def() != null) {
+					o = column.def();
+				}
+				
+				compound.put(column.name(), o);
+			}
+		} else {
+			for (Column value : plaster.columns().values()) {
+				if (plaster.generated().contains(value.name())) continue;
+				compound.put(value.name(), aClass.getDeclaredField(plaster.fieldMap().get(value.name())).get(entity));
+			}
+		}
 
         InsertPhrase values = properties.quill().async(properties.database())
                 .insert().into(plaster.name())
-                .columns(array)
-                .values(objects);
+                .columns(compound.keySet().toArray(new String[0]))
+                .values(compound.values().toArray());
 
         if (plaster.generated().isEmpty()) {
             values.send().await(reader -> {
@@ -255,8 +261,8 @@ public class ModelHandler {
     }
 
     public Data query(Plaster plaster, ResultReader reader) throws SQLException {
+        if (!reader.next()) return null;
         Map<String, Object> compound = new HashMap<>();
-        reader.next();
         for (Column value : plaster.columns().values()) {
             Object o = reader.get(value.name());
             compound.put(value.name(), o);
