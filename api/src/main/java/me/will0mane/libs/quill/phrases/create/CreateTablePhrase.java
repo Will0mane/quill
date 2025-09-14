@@ -21,6 +21,8 @@ public interface CreateTablePhrase extends Phrase {
 
     CreateTablePhrase columns(Column... columns);
 
+    CreateTablePhrase primaryKeys(String... columns);
+
     CreateTablePhrase ifNotExists();
 
 }
