@@ -39,6 +39,7 @@ public enum StandardVerbs implements Verb {
     IF_EXISTS("if exists"),
     IF_NOT_EXISTS("if not exists"),
     NOT_NULL("not null"),
+    UNIQUE("unique"),
     NULL("null"),
     INNER_JOIN("inner join"),
     ON("on"),
@@ -61,8 +62,7 @@ public enum StandardVerbs implements Verb {
     LIKE("like"),
     NOT_LIKE("not like"),
     NOT("not"),
-    IN("in")
-    ;
+    IN("in");
 
     private final boolean appendSpace;
     private final String verb;

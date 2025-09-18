@@ -37,9 +37,9 @@ public class FuncCreateTablePhrase extends BasePhrase implements CreateTablePhra
             writeVerb(LiteralVerb.of(column.type()));
 
             for (ColumnOption option : column.options()) {
-                if(option == ColumnOption.PRIMARY_KEY) primaryCount++;
+                if (option == ColumnOption.PRIMARY_KEY) primaryCount++;
 
-                if(primaryCount > 1) {
+                if (primaryCount > 1) {
                     throw new RuntimeException("To define multiple primary keys, use the primaryKeys method on the createTable before calling columns!");
                 }
 
@@ -54,6 +54,7 @@ public class FuncCreateTablePhrase extends BasePhrase implements CreateTablePhra
         }
 
         if (primaryKeys != null) {
+            writeVerb(StandardVerbs.LISTING);
             writeVerb(StandardVerbs.PRIMARY_KEY);
             writeVerb(StandardVerbs.COMPLEX_OPEN_PARAM);
 

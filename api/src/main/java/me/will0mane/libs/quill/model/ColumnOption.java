@@ -3,6 +3,7 @@ package me.will0mane.libs.quill.model;
 public enum ColumnOption {
 
     NOT_NULL(StandardVerbs.NOT_NULL),
+    UNIQUE(StandardVerbs.UNIQUE),
     NULL(StandardVerbs.NULL),
     KEY(StandardVerbs.KEY),
     PRIMARY_KEY(StandardVerbs.PRIMARY_KEY),
