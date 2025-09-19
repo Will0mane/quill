@@ -62,7 +62,15 @@ public class FuncExecutor implements QuillExecutor {
         query.options(Arrays.asList(options));
 
         CompletableFuture<ResultReader> reader = new CompletableFuture<>();
-        driver.async(() -> reader.complete(query.execute()));
+        driver.async(() -> {
+			try {
+				reader.complete(query.execute());
+			} catch (Exception e) {
+				e.printStackTrace();
+				reader.completeExceptionally(e);
+			}
+		});
+		
         return new FuncResult(reader);
     }
 
