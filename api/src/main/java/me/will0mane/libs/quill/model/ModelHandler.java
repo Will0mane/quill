@@ -117,7 +117,7 @@ public class ModelHandler {
                 .send().await(reader -> {
                     try {
                         future.complete(query(plaster, reader));
-                    } catch (SQLException e) {
+                    } catch (Throwable e) {
 						e.printStackTrace();
                         future.complete(null);
                     }
@@ -189,7 +189,7 @@ public class ModelHandler {
                         i++;
                     }
                     future.complete(entity);
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
                     throw new RuntimeException(e);
                 }

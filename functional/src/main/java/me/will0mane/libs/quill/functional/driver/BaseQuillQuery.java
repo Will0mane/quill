@@ -112,7 +112,8 @@ public class BaseQuillQuery implements Query {
             }
 
             return reader;
-        } catch (SQLException e) {
+        } catch (Throwable e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

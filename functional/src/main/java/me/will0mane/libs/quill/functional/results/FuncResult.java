@@ -25,8 +25,8 @@ public class FuncResult implements Result {
             consumer.accept(reader);
             try {
                 reader.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            } catch (Throwable e) {
+                e.printStackTrace();
             }
         });
     }

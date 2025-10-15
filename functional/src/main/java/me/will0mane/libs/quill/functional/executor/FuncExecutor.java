@@ -65,7 +65,7 @@ public class FuncExecutor implements QuillExecutor {
         driver.async(() -> {
 			try {
 				reader.complete(query.execute());
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				e.printStackTrace();
 				reader.completeExceptionally(e);
 			}

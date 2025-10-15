@@ -26,8 +26,9 @@ public class BaseQuillDriver implements QuillDriver {
     public Connection connection(String database) {
         try {
             return provider.connection(database);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to get connection for database " + database + ": " + e);
         }
     }
 
