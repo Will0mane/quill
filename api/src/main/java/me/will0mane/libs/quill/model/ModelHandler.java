@@ -61,7 +61,7 @@ public class ModelHandler {
             String type = function.apply(declaredField);
 
             if (declaredField.isAnnotationPresent(Unsigned.class)) {
-                type = "unsigned " + type;
+                type = type + " unsigned";
             }
 
             Object def = null;
