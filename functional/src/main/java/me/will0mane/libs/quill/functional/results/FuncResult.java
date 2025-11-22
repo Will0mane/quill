@@ -27,6 +27,7 @@ public class FuncResult implements Result {
                 reader.close();
             } catch (Throwable e) {
                 e.printStackTrace();
+                throw new RuntimeException(e);
             }
         });
     }
