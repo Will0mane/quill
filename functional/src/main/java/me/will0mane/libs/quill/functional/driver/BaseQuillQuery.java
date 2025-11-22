@@ -98,17 +98,19 @@ public class BaseQuillQuery implements Query {
                 setParam(statement, i, param);
             }
 
-            ResultReader reader = null;
+            ResultReader reader;
             switch (method) {
                 case RETRIEVE_DATA -> reader = driver.reader(statement.executeQuery());
                 case UPDATE -> reader = driver.reader(statement.executeUpdate());
                 case NORMAL -> reader = driver.reader(statement.execute());
+                default -> throw new IllegalStateException("Unexpected value: " + method);
             }
 
             if (options.contains(QueryOption.RETURN_GENERATED)) {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
-                generatedKeys.next();
-                reader.add(ResultConstants.GENERATED_KEYS_SPACE, generatedKeys);
+                if (generatedKeys.next()) {
+                    reader.add(ResultConstants.GENERATED_KEYS_SPACE, generatedKeys);
+                }
             }
 
             return reader;
