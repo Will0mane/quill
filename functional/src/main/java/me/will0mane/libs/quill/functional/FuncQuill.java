@@ -6,14 +6,14 @@ import me.will0mane.libs.quill.executor.QuillExecutor;
 import me.will0mane.libs.quill.functional.executor.FuncExecutor;
 import me.will0mane.libs.quill.model.ModelHandler;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FuncQuill implements Quill {
 
     private final QuillDriver driver;
 
-    private final Map<String, QuillExecutor> executors = new HashMap<>();
+    private final Map<String, QuillExecutor> executors = new ConcurrentHashMap<>();
     private final String defaultDatabase;
     private final QuillExecutor defaultExecutor;
 
