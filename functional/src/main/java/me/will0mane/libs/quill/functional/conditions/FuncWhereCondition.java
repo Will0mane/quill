@@ -36,12 +36,22 @@ public class FuncWhereCondition implements WhereCondition {
 
     @Override
     public FilterablePhrase isEqual(String column, Object param) {
+        if (param == null) {
+            writeCompact(column, StandardVerbs.IS, null);
+            return phrase;
+        }
+
         writeCompact(column, StandardVerbs.EQUAL, param);
         return phrase;
     }
 
     @Override
     public FilterablePhrase isNotEqual(String column, Object param) {
+        if (param == null) {
+            writeCompact(column, StandardVerbs.IS_NOT, null);
+            return phrase;
+        }
+
         writeCompact(column, StandardVerbs.NOT_EQUAL, param);
         return phrase;
     }

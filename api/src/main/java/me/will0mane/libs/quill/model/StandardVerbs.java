@@ -62,7 +62,9 @@ public enum StandardVerbs implements Verb {
     LIKE("like"),
     NOT_LIKE("not like"),
     NOT("not"),
-    IN("in");
+    IN("in"),
+    IS("is"),
+    IS_NOT("is not");
 
     private final boolean appendSpace;
     private final String verb;
