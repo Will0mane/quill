@@ -111,6 +111,18 @@ public class FuncWhereCondition implements WhereCondition {
     }
 
     @Override
+    public FilterablePhrase between(String column, Object param1, Object param2) {
+        write(LiteralVerb.of(column));
+        write(StandardVerbs.BETWEEN);
+
+        FunctionWriter.process(param1, scribe);
+        write(StandardVerbs.AND);
+        FunctionWriter.process(param2, scribe);
+
+        return phrase;
+    }
+
+    @Override
     public WhereCondition not() {
         write(StandardVerbs.NOT);
         return this;
