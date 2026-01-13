@@ -43,7 +43,7 @@ public enum StandardVerbs implements Verb {
     UNIQUE("unique"),
     UNION("union"),
     NULL("null"),
-    INNER_JOIN("inner join"),
+    INNER("inner"),
     ON("on"),
     KEY("key"),
     PRIMARY_KEY("primary key"),
@@ -68,6 +68,9 @@ public enum StandardVerbs implements Verb {
     IS("is"),
     BETWEEN("between"),
     AS("as"),
+    LEFT("left"),
+    RIGHT("right"),
+    FULL("full"),
     IS_NOT("is not");
 
     private final boolean appendSpace;

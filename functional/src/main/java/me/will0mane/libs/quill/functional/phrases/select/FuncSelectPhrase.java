@@ -80,7 +80,13 @@ public class FuncSelectPhrase extends BaseFilterablePhrase implements SelectPhra
 
     @Override
     public SelectPhrase innerJoin(String table, String columnOne, String columnTwo) {
-        writeVerb(StandardVerbs.INNER_JOIN);
+        writeVerb(StandardVerbs.INNER);
+        writeVerb(StandardVerbs.JOIN);
+        joinContent(table, columnOne, columnTwo);
+        return this;
+    }
+
+    private void joinContent(String table, String columnOne, String columnTwo) {
         writeVerb(LiteralVerb.of(table));
 
         tableCounter++;
@@ -92,7 +98,29 @@ public class FuncSelectPhrase extends BaseFilterablePhrase implements SelectPhra
         writeVerb(LiteralVerb.of(literal + "." + columnOne));
         writeVerb(StandardVerbs.EQUAL);
         writeVerb(LiteralVerb.of(columnTwo));
+    }
 
+    @Override
+    public SelectPhrase leftJoin(String table, String columnOne, String columnTwo) {
+        writeVerb(StandardVerbs.LEFT);
+        writeVerb(StandardVerbs.JOIN);
+        joinContent(table, columnOne, columnTwo);
+        return this;
+    }
+
+    @Override
+    public SelectPhrase rightJoin(String table, String columnOne, String columnTwo) {
+        writeVerb(StandardVerbs.RIGHT);
+        writeVerb(StandardVerbs.JOIN);
+        joinContent(table, columnOne, columnTwo);
+        return this;
+    }
+
+    @Override
+    public SelectPhrase fullJoin(String table, String columnOne, String columnTwo) {
+        writeVerb(StandardVerbs.FULL);
+        writeVerb(StandardVerbs.JOIN);
+        joinContent(table, columnOne, columnTwo);
         return this;
     }
 
