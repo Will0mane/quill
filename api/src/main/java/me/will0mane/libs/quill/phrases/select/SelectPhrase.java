@@ -19,6 +19,8 @@ public interface SelectPhrase extends FilterablePhrase {
 
     SelectPhrase columns(String... columns);
 
+    SelectPhrase as(String name);
+
     SelectPhrase asterisk();
 
     SelectPhrase from(String table);

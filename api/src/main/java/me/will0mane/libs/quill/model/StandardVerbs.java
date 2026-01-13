@@ -65,6 +65,7 @@ public enum StandardVerbs implements Verb {
     IN("in"),
     IS("is"),
     BETWEEN("between"),
+    AS("as"),
     IS_NOT("is not");
 
     private final boolean appendSpace;

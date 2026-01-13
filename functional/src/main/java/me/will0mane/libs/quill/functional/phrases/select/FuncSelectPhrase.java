@@ -30,6 +30,13 @@ public class FuncSelectPhrase extends BaseFilterablePhrase implements SelectPhra
     }
 
     @Override
+    public SelectPhrase as(String name) {
+        writeVerb(StandardVerbs.AS);
+        writeVerb(LiteralVerb.of(name));
+        return this;
+    }
+
+    @Override
     public SelectPhrase asterisk() {
         writeVerb(StandardVerbs.ASTERISK);
         return this;
