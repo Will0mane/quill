@@ -33,4 +33,8 @@ public interface SelectPhrase extends FilterablePhrase {
 
     SelectPhrase innerJoin(String table, String columnOne, String columnTwo);
 
+    SelectPhrase union();
+
+    SelectPhrase unionAll();
+
 }
