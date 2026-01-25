@@ -1,53 +1,12 @@
 package me.will0mane.libs.quill.model;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public enum StandardVerbs implements Verb {
 
-    SELECT("select"),
-    INSERT("insert"),
-    INSERT_INTO("insert into"),
-    ALTER_TABLE("alter table"),
-    RENAME_COLUMN("rename column"),
-    TO("to"),
-    ON_CONFLICT_UPDATE("on duplicate key update"),
-    CREATE("create"),
-    CREATE_TABLE("create table"),
-    CREATE_DATABASE("create database"),
-    DROP("drop"),
-    ADD("add"),
-    ALL("all"),
-    DESCRIBE("describe"),
-    MODIFY_COLUMN("modify column"),
-    DEFAULT("default"),
-    DELETE("delete"),
-    INTO("into"),
-    FROM("from"),
-    WHERE("where"),
-    UPDATE("update"),
-    JOIN("join"),
-    AND("and"),
-    VALUES("values"),
-    OR("or"),
-    SET("set"),
-    LIMIT("limit"),
-    OFFSET("offset"),
-    ORDER_BY("order by"),
-    DESC("desc"),
-    ASC("asc"),
     UNKNOWN("?"),
     ASTERISK("*"),
-    TABLE("table"),
-    DATABASE("database"),
-    IF_EXISTS("if exists"),
-    IF_NOT_EXISTS("if not exists"),
-    NOT_NULL("not null"),
-    UNIQUE("unique"),
-    UNION("union"),
-    NULL("null"),
-    INNER("inner"),
-    ON("on"),
-    KEY("key"),
-    PRIMARY_KEY("primary key"),
-    AUTO_INCREMENT("auto_increment"),
     COMPLEX_UNKNOWN(false, "?"),
     OPEN_PARAM("("),
     COMPLEX_OPEN_PARAM(false, "("),
@@ -61,17 +20,84 @@ public enum StandardVerbs implements Verb {
     LESS("<"),
     GREATER_EQUAL(">="),
     LESS_EQUAL("<="),
-    LIKE("like"),
-    NOT_LIKE("not like"),
+
+    SELECT("select"),
+    INSERT("insert"),
+    INTO("into"),
+    INSERT_INTO(INSERT, INTO),
+    ALTER("alter"),
+    TABLE("table"),
+    ALTER_TABLE(ALTER, TABLE),
+    RENAME("rename"),
+    COLUMN("column"),
+    RENAME_COLUMN(RENAME, COLUMN),
+    CREATE("create"),
+    DATABASE("database"),
+    CREATE_TABLE(CREATE, TABLE),
+    CREATE_DATABASE(CREATE, DATABASE),
+    DESCRIBE("describe"),
+
+    ON_CONFLICT_UPDATE("on duplicate key update"),
+
+    TO("to"),
+    DROP("drop"),
+    ADD("add"),
+    ALL("all"),
+    MODIFY("modify"),
+    MODIFY_COLUMN(MODIFY, COLUMN),
+    DEFAULT("default"),
+    DELETE("delete"),
+    FROM("from"),
+    WHERE("where"),
+    UPDATE("update"),
+    JOIN("join"),
+    AND("and"),
+    VALUES("values"),
+    OR("or"),
+    SET("set"),
+    LIMIT("limit"),
+    OFFSET("offset"),
+
+    ORDER("order"),
+    BY("by"),
+    ORDER_BY(ORDER, BY),
+
+    DESC("desc"),
+    ASC("asc"),
+
+    IF("if"),
+    EXISTS("exists"),
     NOT("not"),
+
+    IF_EXISTS(IF, EXISTS),
+    IF_NOT_EXISTS(IF, NOT, EXISTS),
+
+    UNIQUE("unique"),
+    UNION("union"),
+    NULL("null"),
+    INNER("inner"),
+    ON("on"),
+    PRIMARY("primary"),
+    KEY("key"),
+    PRIMARY_KEY(PRIMARY, KEY),
+
+    AUTO_INCREMENT("auto_increment"),
+
+    LIKE("like"),
+    NOT_LIKE(NOT, LIKE),
+
     IN("in"),
     IS("is"),
+    IS_NOT(IS, NOT),
+
+    NOT_NULL(NOT, NULL),
+
     BETWEEN("between"),
     AS("as"),
     LEFT("left"),
     RIGHT("right"),
     FULL("full"),
-    IS_NOT("is not");
+    ;
 
     private final boolean appendSpace;
     private final String verb;
@@ -79,6 +105,10 @@ public enum StandardVerbs implements Verb {
     StandardVerbs(boolean appendSpace, String verb) {
         this.appendSpace = appendSpace;
         this.verb = verb;
+    }
+
+    StandardVerbs(StandardVerbs... verbs) {
+        this(String.join(" ", Arrays.stream(verbs).map(StandardVerbs::get).collect(Collectors.toSet())));
     }
 
     StandardVerbs(String verb) {
