@@ -108,7 +108,17 @@ public enum StandardVerbs implements Verb {
     }
 
     StandardVerbs(StandardVerbs... verbs) {
-        this(String.join(" ", Arrays.stream(verbs).map(StandardVerbs::get).collect(Collectors.toSet())));
+        this.appendSpace = true;
+
+        boolean first = true;
+        StringBuilder builder = new StringBuilder();
+        for (StandardVerbs standardVerbs : verbs) {
+            if(first) first = false;
+            else builder.append(' ');
+
+            builder.append(standardVerbs.get());
+        }
+        this.verb = builder.toString();
     }
 
     StandardVerbs(String verb) {
