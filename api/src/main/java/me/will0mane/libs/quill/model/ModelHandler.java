@@ -10,6 +10,7 @@ import me.will0mane.libs.quill.results.ResultConstants;
 import me.will0mane.libs.quill.results.ResultReader;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class ModelHandler {
         FIELD_TYPE_MAPPER.put(short.class, field -> "smallint");
         FIELD_TYPE_MAPPER.put(JSON.class, field -> "json");
         FIELD_TYPE_MAPPER.put(BigInteger.class, field -> "bigint");
+        FIELD_TYPE_MAPPER.put(BigDecimal.class, field -> "decimal(35,2)");
     }
 
     public Plaster loadModel(Model model) throws QuillException, IllegalAccessException {
