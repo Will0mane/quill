@@ -40,10 +40,7 @@ public class FuncQuill implements Quill {
 
     @Override
     public QuillExecutor async(String database) {
-        if (!executors.containsKey(database)) {
-            register(database, new FuncExecutor(driver, database));
-        }
-        return executors.get(database);
+        return executors.computeIfAbsent(database, db -> new FuncExecutor(driver, db));
     }
 
     @Override
