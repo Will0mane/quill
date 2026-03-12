@@ -3,8 +3,10 @@ package me.will0mane.libs.quill.functional.driver;
 import me.will0mane.libs.quill.results.ResultConstants;
 import me.will0mane.libs.quill.results.ResultReader;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +14,23 @@ import java.util.Map;
 public abstract class AbstractReader implements ResultReader {
 
     private final Map<Integer, ResultSet> spaces = new HashMap<>();
+    private Statement managedStatement = null;
+    private Connection managedConnection = null;
 
     protected AbstractReader() {
     }
 
+    void withResources(Statement statement, Connection connection) {
+        this.managedStatement = statement;
+        this.managedConnection = connection;
+    }
+
     private ResultSet at(int space) {
-        return spaces.get(space);
+        ResultSet rs = spaces.get(space);
+        if (rs == null) {
+            throw new IllegalStateException("No ResultSet available for space " + space);
+        }
+        return rs;
     }
 
     @Override
@@ -55,7 +68,12 @@ public abstract class AbstractReader implements ResultReader {
         for (Map.Entry<Integer, ResultSet> entry : spaces.entrySet()) {
             entry.getValue().close();
         }
-
         spaces.clear();
+        if (managedStatement != null) {
+            try { managedStatement.close(); } catch (Exception ignored) {}
+        }
+        if (managedConnection != null) {
+            try { managedConnection.close(); } catch (Exception ignored) {}
+        }
     }
 }
