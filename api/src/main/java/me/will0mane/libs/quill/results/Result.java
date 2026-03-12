@@ -10,4 +10,8 @@ public interface Result {
 
     void await(Consumer<ResultReader> consumer);
 
+    default void await(Consumer<ResultReader> consumer, Consumer<Throwable> onError) {
+        await(consumer);
+    }
+
 }

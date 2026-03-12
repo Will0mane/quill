@@ -54,13 +54,7 @@ public abstract class BasePhrase implements Phrase {
 
     @Override
     public void sendAndIgnore() {
-        send().await().thenAccept(reader -> {
-            try {
-                reader.close();
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        });
+        send().await(reader -> {}, Throwable::printStackTrace);
     }
 
     @Override

@@ -120,10 +120,9 @@ public class ModelHandler {
                     try {
                         future.complete(query(plaster, reader));
                     } catch (Throwable e) {
-						e.printStackTrace();
-                        future.complete(null);
+                        future.completeExceptionally(e);
                     }
-                });
+                }, future::completeExceptionally);
         return future;
     }
 
@@ -133,7 +132,9 @@ public class ModelHandler {
                 .delete()
                 .from(plaster.name())
                 .where().isEqual(identifier.primaryKey(), identifier.value())
-                .send().await(reader -> future.complete(reader.isSuccess()));
+                .send().await(
+                        reader -> future.complete(reader.isSuccess()),
+                        future::completeExceptionally);
         return future;
     }
 
@@ -166,9 +167,9 @@ public class ModelHandler {
                 .values(compound.values().toArray());
 
         if (plaster.generated().isEmpty()) {
-            values.send().await(reader -> {
-                future.complete(entity);
-            });
+            values.send().await(
+                    reader -> future.complete(entity),
+                    future::completeExceptionally);
         } else {
             values.send(QueryOption.RETURN_GENERATED).await(reader -> {
                 try {
@@ -192,10 +193,9 @@ public class ModelHandler {
                     }
                     future.complete(entity);
                 } catch (Throwable e) {
-                    e.printStackTrace();
-                    throw new RuntimeException(e);
+                    future.completeExceptionally(e);
                 }
-            });
+            }, future::completeExceptionally);
         }
         return future;
     }
@@ -223,7 +223,9 @@ public class ModelHandler {
 
         updatePhrase.where().isEqual(identifier.primaryKey(), identifier.value());
 
-        updatePhrase.send().await(reader -> future.complete(reader.isSuccess()));
+        updatePhrase.send().await(
+                reader -> future.complete(reader.isSuccess()),
+                future::completeExceptionally);
         return future;
     }
 
@@ -258,7 +260,9 @@ public class ModelHandler {
 
         updatePhrase.where().isEqual(identifier.primaryKey(), identifier.value());
 
-        updatePhrase.send().await(reader -> future.complete(reader.isSuccess()));
+        updatePhrase.send().await(
+                reader -> future.complete(reader.isSuccess()),
+                future::completeExceptionally);
         return future;
     }
 

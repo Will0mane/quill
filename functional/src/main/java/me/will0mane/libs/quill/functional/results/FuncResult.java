@@ -21,13 +21,26 @@ public class FuncResult implements Result {
 
     @Override
     public void await(Consumer<ResultReader> consumer) {
-        await().thenAccept(reader -> {
-            consumer.accept(reader);
+        await(consumer, Throwable::printStackTrace);
+    }
+
+    @Override
+    public void await(Consumer<ResultReader> consumer, Consumer<Throwable> onError) {
+        await().whenComplete((reader, ex) -> {
+            if (ex != null) {
+                onError.accept(ex);
+                return;
+            }
             try {
-                reader.close();
-            } catch (Throwable e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                consumer.accept(reader);
+            } catch (Throwable t) {
+                onError.accept(t);
+            } finally {
+                try {
+                    reader.close();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
