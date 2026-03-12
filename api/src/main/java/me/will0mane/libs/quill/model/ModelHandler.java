@@ -52,6 +52,7 @@ public class ModelHandler {
 
         String name = aClass.getAnnotation(Name.class).value();
         for (Field declaredField : aClass.getDeclaredFields()) {
+            declaredField.setAccessible(true);
             String fieldName = declaredField.isAnnotationPresent(Name.class) ? declaredField.getAnnotation(Name.class).value()
                     : declaredField.getName();
 
@@ -157,7 +158,9 @@ public class ModelHandler {
 		} else {
 			for (Column value : plaster.columns().values()) {
 				if (plaster.generated().contains(value.name())) continue;
-				compound.put(value.name(), aClass.getDeclaredField(plaster.fieldMap().get(value.name())).get(entity));
+				Field field = aClass.getDeclaredField(plaster.fieldMap().get(value.name()));
+				field.setAccessible(true);
+				compound.put(value.name(), field.get(entity));
 			}
 		}
 
@@ -177,6 +180,7 @@ public class ModelHandler {
                     for (String s : plaster.generated()) {
                         Object o = reader.get(ResultConstants.GENERATED_KEYS_SPACE, i);
                         Field declaredField = aClass.getDeclaredField(plaster.fieldMap().get(s));
+                        declaredField.setAccessible(true);
 
                         if (o instanceof BigInteger bigInteger) {
                             if (declaredField.getType() == long.class) {
@@ -216,7 +220,9 @@ public class ModelHandler {
             Class<?> aClass = entity.getClass();
             for (Column column : plaster.columns().values()) {
                 if (plaster.generated().contains(column.name())) continue;
-                Object o = aClass.getDeclaredField(plaster.fieldMap().get(column.name())).get(entity);
+                Field field = aClass.getDeclaredField(plaster.fieldMap().get(column.name()));
+                field.setAccessible(true);
+                Object o = field.get(entity);
                 updatePhrase.set(column.name(), o);
             }
         }
@@ -248,7 +254,9 @@ public class ModelHandler {
             Class<?> aClass = entity.getClass();
             for (String column : fields) {
                 if (plaster.generated().contains(column)) continue;
-                Object o = aClass.getDeclaredField(plaster.fieldMap().get(column)).get(entity);
+                Field field = aClass.getDeclaredField(plaster.fieldMap().get(column));
+                field.setAccessible(true);
+                Object o = field.get(entity);
                 updatePhrase.set(column, o);
                 minimum = true;
             }
