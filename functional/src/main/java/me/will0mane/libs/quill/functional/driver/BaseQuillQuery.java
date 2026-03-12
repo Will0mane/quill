@@ -90,8 +90,12 @@ public class BaseQuillQuery implements Query {
 
     @Override
     public ResultReader execute() {
-        try (Connection connection = driver.connection(database); PreparedStatement statement =
-                connection.prepareStatement(literal, options.contains(QueryOption.RETURN_GENERATED) ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS)) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = driver.connection(database);
+            statement = connection.prepareStatement(literal,
+                    options.contains(QueryOption.RETURN_GENERATED) ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
             int i = 0;
             for (Object param : params) {
                 i++;
@@ -113,8 +117,11 @@ public class BaseQuillQuery implements Query {
                 }
             }
 
+            ((AbstractReader) reader).withResources(statement, connection);
             return reader;
         } catch (Throwable e) {
+            try { if (statement != null) statement.close(); } catch (Exception ignored) {}
+            try { if (connection != null) connection.close(); } catch (Exception ignored) {}
             e.printStackTrace();
             throw new RuntimeException(e);
         }
