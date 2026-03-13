@@ -5,8 +5,12 @@ import me.will0mane.libs.quill.results.ResultReader;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FuncResult implements Result {
+
+    private static final Logger LOGGER = Logger.getLogger("quill");
 
     private final CompletableFuture<ResultReader> future;
 
@@ -39,7 +43,7 @@ public class FuncResult implements Result {
                 try {
                     reader.close();
                 } catch (Throwable e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.WARNING, "Failed to close ResultReader", e);
                 }
             }
         });

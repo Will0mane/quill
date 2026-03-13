@@ -15,7 +15,7 @@ public class SQLFunction {
     }
 
     public Object[] getParams() {
-        return params;
+        return params.clone();
     }
 
 }

@@ -2,6 +2,7 @@ package me.will0mane.libs.quill.model;
 
 import me.will0mane.libs.quill.phrases.create.Column;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,11 +21,11 @@ public class Plaster {
     }
 
     public Set<String> generated() {
-        return generated;
+        return Collections.unmodifiableSet(generated);
     }
 
     public Map<String, String> fieldMap() {
-        return fieldMap;
+        return Collections.unmodifiableMap(fieldMap);
     }
 
     public String name() {
@@ -32,7 +33,7 @@ public class Plaster {
     }
 
     public Map<String, Column> columns() {
-        return columns;
+        return Collections.unmodifiableMap(columns);
     }
 
 }

@@ -66,7 +66,6 @@ public class FuncExecutor implements QuillExecutor {
 			try {
 				reader.complete(query.execute());
 			} catch (Throwable e) {
-				e.printStackTrace();
 				reader.completeExceptionally(e);
 			}
 		});

@@ -50,6 +50,11 @@ public class BaseQuillQuery implements Query {
     }
 
     private void setParam(PreparedStatement statement, int i, Object o) throws SQLException {
+        if (o == null) {
+            statement.setNull(i, java.sql.Types.NULL);
+            return;
+        }
+
         if (o instanceof String string) {
             statement.setString(i, string);
             return;
@@ -95,8 +100,9 @@ public class BaseQuillQuery implements Query {
         try {
             connection = driver.connection(database);
             statement = connection.prepareStatement(literal,
-                    options.contains(QueryOption.RETURN_GENERATED) ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+                    options != null && options.contains(QueryOption.RETURN_GENERATED) ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
             int i = 0;
+            if (params == null) params = java.util.Collections.emptyList();
             for (Object param : params) {
                 i++;
                 setParam(statement, i, param);
@@ -110,10 +116,12 @@ public class BaseQuillQuery implements Query {
                 default -> throw new IllegalStateException("Unexpected value: " + method);
             }
 
-            if (options.contains(QueryOption.RETURN_GENERATED)) {
+            if (options != null && options.contains(QueryOption.RETURN_GENERATED)) {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     reader.add(ResultConstants.GENERATED_KEYS_SPACE, generatedKeys);
+                } else {
+                    generatedKeys.close();
                 }
             }
 
@@ -122,7 +130,6 @@ public class BaseQuillQuery implements Query {
         } catch (Throwable e) {
             try { if (statement != null) statement.close(); } catch (Exception ignored) {}
             try { if (connection != null) connection.close(); } catch (Exception ignored) {}
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

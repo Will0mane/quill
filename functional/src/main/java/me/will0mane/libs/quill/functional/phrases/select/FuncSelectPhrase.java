@@ -67,10 +67,13 @@ public class FuncSelectPhrase extends BaseFilterablePhrase implements SelectPhra
 
     @Override
     public SelectPhrase orderBy(String column, boolean descending) {
-        if (firstOrder) firstOrder = false;
-        else writeVerb(StandardVerbs.LISTING);
+        if (firstOrder) {
+            writeVerb(StandardVerbs.ORDER_BY);
+            firstOrder = false;
+        } else {
+            writeVerb(StandardVerbs.LISTING);
+        }
 
-        writeVerb(StandardVerbs.ORDER_BY);
         writeVerb(LiteralVerb.of(column));
 
         if (descending) writeVerb(StandardVerbs.DESC);

@@ -65,8 +65,14 @@ public abstract class AbstractReader implements ResultReader {
 
     @Override
     public void close() throws Exception {
+        Exception firstException = null;
         for (Map.Entry<Integer, ResultSet> entry : spaces.entrySet()) {
-            entry.getValue().close();
+            try {
+                entry.getValue().close();
+            } catch (Exception e) {
+                if (firstException == null) firstException = e;
+                else firstException.addSuppressed(e);
+            }
         }
         spaces.clear();
         if (managedStatement != null) {
@@ -75,5 +81,6 @@ public abstract class AbstractReader implements ResultReader {
         if (managedConnection != null) {
             try { managedConnection.close(); } catch (Exception ignored) {}
         }
+        if (firstException != null) throw firstException;
     }
 }
