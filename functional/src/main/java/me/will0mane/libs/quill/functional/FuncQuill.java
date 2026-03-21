@@ -61,6 +61,16 @@ public class FuncQuill implements Quill {
     }
 
     @Override
+    public QuillExecutor executor(boolean async) {
+        return async ? async() : sync();
+    }
+
+    @Override
+    public QuillExecutor executor(String database, boolean async) {
+        return async ? async(database) : sync(database);
+    }
+
+    @Override
     public String defaultDatabase() {
         return defaultDatabase;
     }

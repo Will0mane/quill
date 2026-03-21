@@ -101,7 +101,7 @@ public class ModelHandler {
     }
 
     public void createTableQuery(QuillProperties properties, Plaster plaster) {
-        properties.quill().async(properties.database())
+        properties.quill().executor(properties.database(), properties.async())
                 .createTable()
                 .ifNotExists()
                 .name(plaster.name())
@@ -111,7 +111,7 @@ public class ModelHandler {
 
     public CompletableFuture<Data> select(QuillProperties properties, Plaster plaster, RowIdentifier identifier) {
         CompletableFuture<Data> future = new CompletableFuture<>();
-        properties.quill().async(properties.database())
+        properties.quill().executor(properties.database(), properties.async())
                 .select().asterisk()
                 .from(plaster.name())
                 .where().isEqual(identifier.primaryKey(), identifier.value())
@@ -127,7 +127,7 @@ public class ModelHandler {
 
     public CompletableFuture<Boolean> delete(QuillProperties properties, Plaster plaster, RowIdentifier identifier) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        properties.quill().async(properties.database())
+        properties.quill().executor(properties.database(), properties.async())
                 .delete()
                 .from(plaster.name())
                 .where().isEqual(identifier.primaryKey(), identifier.value())
@@ -162,7 +162,7 @@ public class ModelHandler {
 			}
 		}
 
-        InsertPhrase values = properties.quill().async(properties.database())
+        InsertPhrase values = properties.quill().executor(properties.database(), properties.async())
                 .insert().into(plaster.name())
                 .columns(compound.keySet().toArray(new String[0]))
                 .values(compound.values().toArray());
@@ -210,7 +210,7 @@ public class ModelHandler {
     public CompletableFuture<Boolean> update(QuillProperties properties, Plaster plaster, Object entity, RowIdentifier identifier) throws NoSuchFieldException, IllegalAccessException {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-        UpdatePhrase updatePhrase = properties.quill().async(properties.database())
+        UpdatePhrase updatePhrase = properties.quill().executor(properties.database(), properties.async())
                 .update().table(plaster.name());
 
         if (entity instanceof Data data) {
@@ -241,7 +241,7 @@ public class ModelHandler {
     public CompletableFuture<Boolean> updateSpecific(QuillProperties properties, Plaster plaster, Object entity, RowIdentifier identifier, String... fields) throws NoSuchFieldException, IllegalAccessException {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-        UpdatePhrase updatePhrase = properties.quill().async(properties.database())
+        UpdatePhrase updatePhrase = properties.quill().executor(properties.database(), properties.async())
                 .update().table(plaster.name());
 
         boolean minimum = false;

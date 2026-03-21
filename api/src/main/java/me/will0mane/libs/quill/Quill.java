@@ -13,6 +13,10 @@ public interface Quill {
 
     QuillExecutor sync(String database);
 
+    QuillExecutor executor(boolean async);
+
+    QuillExecutor executor(String database, boolean async);
+
     String defaultDatabase();
 
     QuillDriver driver();
