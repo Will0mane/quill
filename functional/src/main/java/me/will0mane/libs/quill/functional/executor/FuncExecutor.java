@@ -40,9 +40,12 @@ public class FuncExecutor implements QuillExecutor {
     private final QuillDriver driver;
     private final String database;
 
-    public FuncExecutor(QuillDriver driver, String database) {
+    private final boolean async;
+
+    public FuncExecutor(QuillDriver driver, String database, boolean async) {
         this.driver = driver;
         this.database = database;
+        this.async = async;
     }
 
     @Override
@@ -62,13 +65,21 @@ public class FuncExecutor implements QuillExecutor {
         query.options(Arrays.asList(options));
 
         CompletableFuture<ResultReader> reader = new CompletableFuture<>();
-        driver.async(() -> {
-			try {
-				reader.complete(query.execute());
-			} catch (Throwable e) {
-				reader.completeExceptionally(e);
-			}
-		});
+        if(async) {
+            driver.async(() -> {
+                try {
+                    reader.complete(query.execute());
+                } catch (Throwable e) {
+                    reader.completeExceptionally(e);
+                }
+            });
+        }else {
+            try {
+                reader.complete(query.execute());
+            } catch (Throwable e) {
+                reader.completeExceptionally(e);
+            }
+        }
 		
         return new FuncResult(reader);
     }

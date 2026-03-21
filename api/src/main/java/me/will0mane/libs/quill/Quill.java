@@ -9,6 +9,10 @@ public interface Quill {
 
     QuillExecutor async(String database);
 
+    QuillExecutor sync();
+
+    QuillExecutor sync(String database);
+
     String defaultDatabase();
 
     QuillDriver driver();

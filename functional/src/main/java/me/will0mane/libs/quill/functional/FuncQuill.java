@@ -14,8 +14,11 @@ public class FuncQuill implements Quill {
     private final QuillDriver driver;
 
     private final Map<String, QuillExecutor> executors = new ConcurrentHashMap<>();
+    private final Map<String, QuillExecutor> syncExecutors = new ConcurrentHashMap<>();
+
     private final String defaultDatabase;
-    private final QuillExecutor defaultExecutor;
+    private final QuillExecutor defExecutor;
+    private final QuillExecutor defSyncExecutor;
 
     private final ModelHandler models;
 
@@ -23,24 +26,38 @@ public class FuncQuill implements Quill {
         this.driver = driver;
         this.defaultDatabase = defaultDatabase;
 
-        defaultExecutor = new FuncExecutor(driver, defaultDatabase);
-        register(defaultDatabase, defaultExecutor);
+        defExecutor = new FuncExecutor(driver, defaultDatabase, true);
+        register(defaultDatabase, defExecutor, true);
+
+        defSyncExecutor = new FuncExecutor(driver, defaultDatabase, false);
+        register(defaultDatabase, defExecutor, false);
 
         models = new ModelHandler();
     }
 
-    private void register(String database, QuillExecutor executor) {
-        executors.put(database, executor);
+    private void register(String database, QuillExecutor executor, boolean async) {
+        if(async) executors.put(database, executor);
+        else syncExecutors.put(database, executor);
     }
 
     @Override
     public QuillExecutor async() {
-        return defaultExecutor;
+        return defExecutor;
     }
 
     @Override
     public QuillExecutor async(String database) {
-        return executors.computeIfAbsent(database, db -> new FuncExecutor(driver, db));
+        return executors.computeIfAbsent(database, db -> new FuncExecutor(driver, db, true));
+    }
+
+    @Override
+    public QuillExecutor sync() {
+        return defSyncExecutor;
+    }
+
+    @Override
+    public QuillExecutor sync(String database) {
+        return syncExecutors.computeIfAbsent(database, db -> new FuncExecutor(driver, db, false));
     }
 
     @Override
