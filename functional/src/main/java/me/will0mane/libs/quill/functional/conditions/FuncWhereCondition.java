@@ -93,6 +93,14 @@ public class FuncWhereCondition implements WhereCondition {
     }
 
     @Override
+    public FilterablePhrase isNull(String column) {
+        write(LiteralVerb.of(column));
+        write(StandardVerbs.IS);
+        write(StandardVerbs.NULL);
+        return phrase;
+    }
+
+    @Override
     public FilterablePhrase in(String column, Object... params) {
         write(LiteralVerb.of(column));
         write(StandardVerbs.IN);

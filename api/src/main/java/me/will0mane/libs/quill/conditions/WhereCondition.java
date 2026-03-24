@@ -19,7 +19,9 @@ public interface WhereCondition extends Condition{
     FilterablePhrase isLike(String column, String param);
     
     FilterablePhrase isNotLike(String column, String param);
-    
+
+    FilterablePhrase isNull(String column);
+
     FilterablePhrase in(String column, Object... params);
 
     FilterablePhrase between(String column, Object param1, Object param2);
