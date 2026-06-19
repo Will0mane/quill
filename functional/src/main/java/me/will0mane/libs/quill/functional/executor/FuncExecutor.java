@@ -81,7 +81,7 @@ public class FuncExecutor implements QuillExecutor {
             }
         }
 		
-        return new FuncResult(reader);
+        return new FuncResult(reader, !async);
     }
 
     private <T extends Phrase> T makePhrase(T phrase) {

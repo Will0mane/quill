@@ -8,6 +8,14 @@ public interface Result {
     @Deprecated
     CompletableFuture<ResultReader> await();
 
+    /**
+     * Returns the {@link ResultReader} immediately, without going through a callback.
+     * Only available when the query was executed through a synchronous executor
+     * (e.g. {@code Quill#sync()}); calling this on an async result throws.
+     * The caller owns the returned reader and must close it (try-with-resources).
+     */
+    ResultReader get();
+
     void await(Consumer<ResultReader> consumer);
 
     default void await(Consumer<ResultReader> consumer, Consumer<Throwable> onError) {
