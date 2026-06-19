@@ -1,5 +1,7 @@
 package me.will0mane.libs.quill.functional.driver;
 
+import me.will0mane.libs.quill.model.SQLNull;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -9,6 +11,11 @@ public final class StatementBinder {
     }
 
     public static void bind(PreparedStatement statement, int i, Object o) throws SQLException {
+        if (o instanceof SQLNull typedNull) {
+            statement.setNull(i, typedNull.getSqlType());
+            return;
+        }
+
         if (o == null) {
             statement.setNull(i, java.sql.Types.NULL);
             return;

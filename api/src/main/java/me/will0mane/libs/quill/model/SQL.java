@@ -13,4 +13,8 @@ public final class SQL {
         return new SQLFunction(functionName, params);
     }
 
+    public static SQLNull nullOf(int sqlType) {
+        return new SQLNull(sqlType);
+    }
+
 }
