@@ -15,10 +15,12 @@ public class FuncQuillSession implements QuillSession {
 
     private final Connection realConnection;
     private final QuillExecutor executor;
+    private final boolean previousAutoCommit;
 
     public FuncQuillSession(Connection realConnection, String database) {
         this.realConnection = realConnection;
         try {
+            this.previousAutoCommit = realConnection.getAutoCommit();
             realConnection.setAutoCommit(false);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to start session on database " + database, e);
@@ -55,7 +57,7 @@ public class FuncQuillSession implements QuillSession {
     @Override
     public void close() {
         try {
-            realConnection.setAutoCommit(true);
+            realConnection.setAutoCommit(previousAutoCommit);
         } catch (SQLException ignored) {
         }
         try {
