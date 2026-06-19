@@ -43,7 +43,7 @@ public class BaseQuillDriver implements QuillDriver {
 
     @Override
     public ResultReader reader(int i) {
-        return new BaseReaderSuccess(i > 0);
+        return new BaseReaderSuccess(i);
     }
 
     @Override
