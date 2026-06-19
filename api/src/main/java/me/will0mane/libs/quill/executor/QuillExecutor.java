@@ -1,5 +1,6 @@
 package me.will0mane.libs.quill.executor;
 
+import me.will0mane.libs.quill.model.QueryMethod;
 import me.will0mane.libs.quill.model.QueryOption;
 import me.will0mane.libs.quill.phrases.Phrase;
 import me.will0mane.libs.quill.phrases.batch.BatchPhrase;
@@ -22,6 +23,14 @@ public interface QuillExecutor {
     BatchPhrase batch(String literal);
 
     RawPhrase raw();
+
+    default RawPhrase selectRaw(String sql, Object... params) {
+        return raw().method(QueryMethod.RETRIEVE_DATA).query(sql).params(params);
+    }
+
+    default RawPhrase updateRaw(String sql, Object... params) {
+        return raw().method(QueryMethod.UPDATE).query(sql).params(params);
+    }
 
     DeletePhrase delete();
 
