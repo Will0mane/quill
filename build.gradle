@@ -1,6 +1,6 @@
 subprojects {
     group = 'me.will0mane.libs.quill'
-    version = '1.0-SNAPSHOT'
+    version = '1.1-SNAPSHOT'
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
