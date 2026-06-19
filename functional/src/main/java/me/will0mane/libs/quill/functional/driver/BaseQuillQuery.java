@@ -49,50 +49,6 @@ public class BaseQuillQuery implements Query {
         this.method = method;
     }
 
-    private void setParam(PreparedStatement statement, int i, Object o) throws SQLException {
-        if (o == null) {
-            statement.setNull(i, java.sql.Types.NULL);
-            return;
-        }
-
-        if (o instanceof String string) {
-            statement.setString(i, string);
-            return;
-        }
-
-        if (o instanceof Integer integer) {
-            statement.setInt(i, integer);
-            return;
-        }
-
-        if (o instanceof Long longInteger) {
-            statement.setLong(i, longInteger);
-            return;
-        }
-
-        if (o instanceof Float floatInteger) {
-            statement.setFloat(i, floatInteger);
-            return;
-        }
-
-        if (o instanceof Double doubleInteger) {
-            statement.setDouble(i, doubleInteger);
-            return;
-        }
-
-        if (o instanceof Boolean booleanInteger) {
-            statement.setBoolean(i, booleanInteger);
-            return;
-        }
-
-        if (o instanceof byte[] bytes) {
-            statement.setBytes(i, bytes);
-            return;
-        }
-
-        statement.setObject(i, o);
-    }
-
     @Override
     public ResultReader execute() {
         Connection connection = null;
@@ -105,7 +61,7 @@ public class BaseQuillQuery implements Query {
             if (params == null) params = java.util.Collections.emptyList();
             for (Object param : params) {
                 i++;
-                setParam(statement, i, param);
+                StatementBinder.bind(statement, i, param);
             }
 
             ResultReader reader;

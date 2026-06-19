@@ -11,11 +11,13 @@ import me.will0mane.libs.quill.functional.phrases.drop.FuncDropPhrase;
 import me.will0mane.libs.quill.functional.phrases.insert.FuncInsertPhrase;
 import me.will0mane.libs.quill.functional.phrases.raw.FuncRawPhrase;
 import me.will0mane.libs.quill.functional.phrases.select.FuncSelectPhrase;
+import me.will0mane.libs.quill.functional.phrases.batch.FuncBatchPhrase;
 import me.will0mane.libs.quill.functional.phrases.update.FuncUpdatePhrase;
 import me.will0mane.libs.quill.functional.results.FuncResult;
 import me.will0mane.libs.quill.model.Query;
 import me.will0mane.libs.quill.model.QueryOption;
 import me.will0mane.libs.quill.phrases.Phrase;
+import me.will0mane.libs.quill.phrases.batch.BatchPhrase;
 import me.will0mane.libs.quill.phrases.alter.AlterTablePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateDatabasePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateTablePhrase;
@@ -87,6 +89,14 @@ public class FuncExecutor implements QuillExecutor {
     private <T extends Phrase> T makePhrase(T phrase) {
         phrase.create();
         return phrase;
+    }
+
+    @Override
+    public BatchPhrase batch(String literal) {
+        if (async) {
+            throw new IllegalStateException("batch() is only available on a sync executor; obtain it via Quill#sync() or QuillSession#executor()");
+        }
+        return new FuncBatchPhrase(driver, database, literal);
     }
 
     @Override

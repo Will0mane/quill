@@ -2,6 +2,7 @@ package me.will0mane.libs.quill.executor;
 
 import me.will0mane.libs.quill.model.QueryOption;
 import me.will0mane.libs.quill.phrases.Phrase;
+import me.will0mane.libs.quill.phrases.batch.BatchPhrase;
 import me.will0mane.libs.quill.phrases.alter.AlterTablePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateDatabasePhrase;
 import me.will0mane.libs.quill.phrases.create.CreateTablePhrase;
@@ -17,6 +18,8 @@ import me.will0mane.libs.quill.results.Result;
 public interface QuillExecutor {
 
     Result execute(Phrase phrase, QueryOption... options);
+
+    BatchPhrase batch(String literal);
 
     RawPhrase raw();
 
