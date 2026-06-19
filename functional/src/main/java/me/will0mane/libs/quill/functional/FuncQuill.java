@@ -2,10 +2,12 @@ package me.will0mane.libs.quill.functional;
 
 import me.will0mane.libs.quill.Quill;
 import me.will0mane.libs.quill.QuillDriver;
+import me.will0mane.libs.quill.QuillSession;
 import me.will0mane.libs.quill.executor.QuillExecutor;
 import me.will0mane.libs.quill.functional.executor.FuncExecutor;
 import me.will0mane.libs.quill.model.ModelHandler;
 
+import java.sql.Connection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -68,6 +70,18 @@ public class FuncQuill implements Quill {
     @Override
     public QuillExecutor executor(String database, boolean async) {
         return async ? async(database) : sync(database);
+    }
+
+    @Override
+    public QuillSession session() {
+        return session(defaultDatabase);
+    }
+
+    @Override
+    public QuillSession session(String database) {
+        String db = database == null ? defaultDatabase : database;
+        Connection connection = driver.connection(db);
+        return new FuncQuillSession(connection, db);
     }
 
     @Override

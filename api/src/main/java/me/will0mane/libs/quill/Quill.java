@@ -17,6 +17,10 @@ public interface Quill {
 
     QuillExecutor executor(String database, boolean async);
 
+    QuillSession session();
+
+    QuillSession session(String database);
+
     String defaultDatabase();
 
     QuillDriver driver();
