@@ -1,6 +1,7 @@
 package me.will0mane.libs.quill.functional.model;
 
 import me.will0mane.libs.quill.model.SQLFunction;
+import me.will0mane.libs.quill.model.SQLRaw;
 import me.will0mane.libs.quill.model.StandardVerbs;
 
 public class FunctionWriter {
@@ -23,6 +24,11 @@ public class FunctionWriter {
     public static void process(Object param, Scribe scribe) {
         if (param instanceof SQLFunction function) {
             write(function, scribe);
+            return;
+        }
+
+        if (param instanceof SQLRaw raw) {
+            scribe.write(LiteralVerb.of(raw.getExpression()));
             return;
         }
 
