@@ -17,5 +17,12 @@ public interface RawPhrase extends Phrase {
 
     RawPhrase param(Object param);
 
+    default RawPhrase params(Object... params) {
+        for (Object param : params) {
+            param(param);
+        }
+        return this;
+    }
+
 }
 
